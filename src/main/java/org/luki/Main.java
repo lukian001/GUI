@@ -10,6 +10,8 @@ public class Main {
         new MainFrame("Laborator 2", 800, 800) {
             @Override
             public void toBeDrawed(GLCanvas canvas) {
+                // adaugat in VM options
+                // --add-exports java.base/java.lang=ALL-UNNAMED --add-exports java.desktop/sun.awt=ALL-UNNAMED --add-exports java.desktop/sun.java2d=ALL-UNNAMED
                 Tema tm2 = new Tema2(canvas);
                 tm2.run();
             }
