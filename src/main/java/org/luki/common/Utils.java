@@ -2,9 +2,7 @@ package org.luki.common;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
+import com.jogamp.opengl.awt.GLCanvas;
 
 public class Utils {
     public static void middle(GL2 gl) {
@@ -29,52 +27,23 @@ public class Utils {
         gl.glEnd();
     }
 
-    public static void drawCircle(GL2 gl, Color colorOutside,
-                                  Color colorInside, Color stroke, Point2D.Float center, float radius) {
-        double increment = 2 * Math.PI / 50;
-        
-        for (double angle = 0; angle < 2 * Math.PI; angle += increment) {
-            float x1 = center.x + (float) Math.cos(angle) * radius;
-            float y1 = center.y + (float) Math.sin(angle) * radius;
-            float x2 = center.x + (float) Math.cos(angle + increment)
-                    * radius;
-            float y2 = center.y + (float) Math.sin(angle + increment)
-                    * radius;
-
-            gl.glBegin(GL.GL_TRIANGLES);
-            setColor(gl, colorInside);
-            gl.glVertex2d(center.x, center.y);
-            setColor(gl, colorOutside);
-            gl.glVertex2f(x1, y1);
-            gl.glVertex2f(x2, y2);
-            gl.glEnd();
+    public static void drawCircle(GL2 gl, float centerX, float centerY, float radius) {
+        gl.glLineWidth(2.0f);
+        gl.glBegin(GL2.GL_LINE_LOOP);
+        for (int i = 0; i < 360; i++) {
+            float theta = (float) (i * Math.PI / 180);
+            float x = centerX + radius * (float) Math.cos(theta);
+            float y = centerY + radius * (float) Math.sin(theta);
+            gl.glVertex2f(x, y);
         }
-
-        gl.glBegin(GL.GL_LINE_LOOP);
-
-        for (double angle = 0; angle < 2 * Math.PI; angle += increment) {
-            float x1 = center.x + (float) Math.cos(angle) * radius;
-            float y1 = center.y + (float) Math.sin(angle) * radius;
-            float x2 = center.x + (float) Math.cos(angle + increment)
-                    * radius;
-            float y2 = center.y + (float) Math.sin(angle + increment)
-                    * radius;
-            setColor(gl, stroke);
-            gl.glVertex2f(x1, y1);
-            gl.glVertex2f(x2, y2);
-        }
-
         gl.glEnd();
     }
 
-    public static void setColor(GL2 gl, Color color) {
-        if (color != null) {
-            float red = color.getRed() / 255f;
-            float green = color.getGreen() / 255f;
-            float blue = color.getBlue() / 255f;
-            float alpha = color.getAlpha() / 255f;
+    public static GL2 getNewGl(GLCanvas canvas) {
+        GL2 gl = canvas.getGL().getGL2();
+        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
+        gl.glFlush();
 
-            gl.glColor4f(red, green, blue, alpha);
-        }
+        return gl;
     }
 }

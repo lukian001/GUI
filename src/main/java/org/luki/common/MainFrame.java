@@ -43,13 +43,10 @@ public abstract class MainFrame
     }
 
     public void display(GLAutoDrawable canvas) {
-        GL2 gl = canvas.getGL().getGL2();
-        gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-        gl.glFlush();
-        toBeDrawed(gl);
+        toBeDrawed((GLCanvas) canvas);
     }
 
-    public abstract void toBeDrawed(GL2 gl);
+    public abstract void toBeDrawed(GLCanvas canvas);
 
     public void reshape(GLAutoDrawable canvas, int left, int top, int width, int height) {
         GL2 gl = canvas.getGL().getGL2();
