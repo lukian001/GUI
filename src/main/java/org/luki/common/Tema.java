@@ -1,18 +1,11 @@
 package org.luki.common;
 
-import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.awt.GLCanvas;
+import com.jogamp.opengl.GLAutoDrawable;
 
 public abstract class Tema {
-    protected GLCanvas canvas;
+    public Tema() {
 
-    public Tema(GLCanvas canvas) {
-        this.canvas = canvas;
     }
 
-    protected GL2 getGl() {
-        return Utils.getNewGl(canvas);
-    }
-
-    public abstract void run();
+    public abstract void run(GLAutoDrawable canvas);
 }

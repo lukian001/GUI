@@ -11,8 +11,8 @@ public abstract class MainFrame
         extends JFrame
         implements GLEventListener {
     private final double v_size = 1.0;
-    private GLCanvas canvas;
     private Animator animator;
+    private GLCanvas canvas;
 
     public MainFrame(String dialogTitle, int sizeX, int sizeY) {
         super(dialogTitle);
@@ -30,24 +30,28 @@ public abstract class MainFrame
         capabilities.setNumSamples(2);
         capabilities.setSampleBuffers(true);
         this.canvas = new GLCanvas(capabilities);
-        this.getContentPane().add(this.canvas);
-        this.canvas.addGLEventListener(this);
         this.animator = new Animator(this.canvas);
         this.animator.start();
+        this.getContentPane().add(this.canvas);
+        this.canvas.addGLEventListener(this);
+
     }
 
+    @Override
     public void init(GLAutoDrawable canvas) {
         GL2 gl = canvas.getGL().getGL2();
         gl.glClearColor(0, 0, 0, 0);
         gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
     }
 
+    @Override
     public void display(GLAutoDrawable canvas) {
-        toBeDrawed((GLCanvas) canvas);
+        toBeDrawed(canvas);
     }
 
-    public abstract void toBeDrawed(GLCanvas canvas);
+    public abstract void toBeDrawed(GLAutoDrawable canvas);
 
+    @Override
     public void reshape(GLAutoDrawable canvas, int left, int top, int width, int height) {
         GL2 gl = canvas.getGL().getGL2();
         gl.glViewport(0, 0, width, height);
